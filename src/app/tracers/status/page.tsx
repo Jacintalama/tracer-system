@@ -66,8 +66,13 @@ export default function TracerStatusPage() {
   const filtered = records?.filter((r) => {
     const status = getCustomStatus(r);
     const matchesStatus = statusFilter === "all" || status === statusFilter;
+
+    // ✔️ match any address containing the selected barangay (case-insensitive)
+    const addr = r.address ?? "";
     const matchesBarangay =
-      barangayFilter === "all" || r.address === barangayFilter;
+      barangayFilter === "all" ||
+      addr.toLowerCase().includes(barangayFilter.toLowerCase());
+
     const matchesOwner = r.owner
       ?.toLowerCase()
       .includes(ownerSearch.toLowerCase());
